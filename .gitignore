@@ -1,0 +1,7 @@
+.vscode/
+hujstwo/
+src/
+
+dane.csv
+*.csv
+*.exe
