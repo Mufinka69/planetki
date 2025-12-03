@@ -6,8 +6,8 @@ CC = $(RAYLIB_PATH)/bin/g++.exe
 CFLAGS = -I$(INCLUDE_PATH) -Wall -std=c++14
 LDFLAGS = -L$(LIB_PATH) -lraylib -lopengl32 -lgdi32 -lwinmm
 
-SRC = main.cpp
-OUT = main.exe
+SRC = main3d.cpp
+OUT = main3d.exe
 
 all:
 	$(CC) -fopenmp $(SRC) -o $(OUT) $(CFLAGS) $(LDFLAGS)

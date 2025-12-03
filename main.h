@@ -15,12 +15,10 @@
 #define MIN 1e-8
 #define MIN2 0.05
 
-int number_of_planets = 0;
-const double G = 6.67428e-11;
-const double AU = 149.6e6 * 1000;   
-const double scale = 200 / AU;
-
-
+// int number_of_planets = 0;
+#define G 6.67428e-11
+#define AU  149.6e6 * 1000
+#define scale (200.0 / AU)
 
 
 #include "Vector3d.h"

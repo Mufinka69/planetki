@@ -18,7 +18,7 @@ void to_file3d(std::vector<CelestialBody> celestialBody){
         celestialBody[i].velocity.z *= 1E+3;
     }
 
-    double h = step_size(0, 0, 1, 0);
+    double h = step_size(0, 0, 15, 0);
     double t = 0;
 
     std::ofstream file("dane.csv");
@@ -30,24 +30,23 @@ void to_file3d(std::vector<CelestialBody> celestialBody){
 
     Simulation simulation(celestialBody);
 
-    for (int i = 0; i < 330 * 24; i++) {
-        simulation.update(h, 1);
+    for (int i = 0; i < 330 * 24 * 4; i++) {
+        simulation.update(h, G);
         t += h; 
 
         file << t;
-        for (int i = 0; i < n; i++) {
-            file << "," << simulation.bodies[i].pos.x
-                 << "," << simulation.bodies[i].pos.y
-                 << "," << simulation.bodies[i].pos.z 
-                 << "," << simulation.bodies[i].velocity.x 
-                 << "," << simulation.bodies[i].velocity.y 
-                 << "," << simulation.bodies[i].velocity.z;
+        for (int j = 0; j < n; j++) {
+            file << "," << simulation.bodies[j].pos.x
+                 << "," << simulation.bodies[j].pos.y
+                 << "," << simulation.bodies[j].pos.z 
+                 << "," << simulation.bodies[j].velocity.x 
+                 << "," << simulation.bodies[j].velocity.y 
+                 << "," << simulation.bodies[j].velocity.z;
         }
         file << "\n";
     }
     std::cout<<"Koniec\n";
 }
-
 
 int main(void){
     
@@ -108,97 +107,26 @@ int main(void){
 
     std::vector<CelestialBody> celestialBody = {sun, mercury, venus, earth, mars};
 
-    int bs = 3;
+    // Simulation simulation(celestialBody);
+    to_file3d(celestialBody);
 
-    std::vector<CelestialBody2d> celestialBody2d(bs);
-    // for(int i = 0; i < bs; i++){
-    //     celestialBody2d[i].mass = 1;
-    //     celestialBody2d[i].pos.x = rand()%750 + 25;
-    //     celestialBody2d[i].pos.y = rand()%550 + 25;
+
+
+
+    // InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "dd!");
+    // SetTargetFPS(120);
+
+    // while (!WindowShouldClose()){
+    //      BeginDrawing();
+    //         simulation.update(0.1, G);
+    //         ClearBackground(BLACK);
+    //         auto bodies = simulation.get_bodies();
+    //         for(int i = 0; i < celestialBody.size(); i++){
+    //             DrawPixel(bodies[i].pos.x, bodies[i].pos.y, RAYWHITE);
+    //         }
+    //         std::cout<<bodies[1].pos.x << "\n";
+    //     EndDrawing();
     // }
-
-    for(int i = 0; i < bs; i++){
-        celestialBody2d[i].mass = 1;
-        float theta = rand_float(2 * PI);
-        float r = rand()%10;
-
-        float centerX = WINDOW_WIDTH/2;
-        float centerY = WINDOW_HEIGHT/2;
-
-        float x = r * cos(theta);
-        float y = r * sin(theta);
-
-        celestialBody2d[i].pos.x = centerX + x;
-        celestialBody2d[i].pos.y = centerY + y;
-
-        double mass = 0;
-        for (int j = 0; j < bs; j++){
-            float dx = celestialBody2d[j].pos.x - centerX;
-            float dy = celestialBody2d[j].pos.y - centerY;
-            float rj = sqrt(dx * dx + dy * dy);
-            if(r > rj){
-                mass += celestialBody2d[j].mass;
-            }
-        }
-
-        float v = sqrt(mass/r);
-        // std::cout<<-y / r * v<<" :NOWE\n";
-        // std::cout<<-y * 0.01f<<" :STARE\n";
-
-        if (r > 0.0f) {
-            celestialBody2d[i].velocity.x = -y / r * v;
-            celestialBody2d[i].velocity.y =  x / r * v;
-        } else {
-            celestialBody2d[i].velocity.x = 0.0f;
-            celestialBody2d[i].velocity.y = 0.0f;
-        }
-
-
-        // celestialBody2d[i].velocity.x = -y * 0.01f;
-        // celestialBody2d[i].velocity.y = x * 0.01f;
-
-    }
-
-    Vector2d pos = {0, 0};
-    Vector2d vel = {0, 0};
-    for(int i = 0; i < bs; i++){
-        pos.x += celestialBody2d[i].pos.x;
-        pos.y += celestialBody2d[i].pos.y;
-
-        vel.x += celestialBody2d[i].velocity.x;
-        vel.y += celestialBody2d[i].velocity.y;
-    }
-    pos.x /= bs;
-    pos.y /= bs;
-
-    vel.x /= bs; 
-    vel.y /= bs;
-
-    for(int i = 0; i < bs; i++){
-        celestialBody2d[i].pos.x -= pos.x - WINDOW_WIDTH/2;
-        celestialBody2d[i].pos.y -= pos.y - WINDOW_HEIGHT/2;   
-
-        celestialBody2d[i].velocity.x -= vel.x;
-        celestialBody2d[i].velocity.y -= vel.y;
-    }
-
-
-    Simulation2d simulation2d(celestialBody2d);
-
-    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "dd!");
-    SetTargetFPS(120);
-
-    while (!WindowShouldClose()){
-         BeginDrawing();
-            simulation2d.update(0.1);
-            ClearBackground(BLACK);
-            auto bodies = simulation2d.get_bodies();
-            for(int i = 0; i < bs; i++){
-                DrawPixel(bodies[i].pos.x, bodies[i].pos.y, RAYWHITE);
-            }
-            std::cout<<bodies[1].pos.x << "\n";
-        EndDrawing();
-    }
 }
 
 

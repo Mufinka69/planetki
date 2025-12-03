@@ -14,7 +14,7 @@ public:
     }
 
     void rk4(){
-        
+        //adasd
     }
 
 
@@ -27,6 +27,8 @@ public:
             bodies[i].velocity.y += bodies[i].acceleration.y * dt;
         }
     }
+
+
 
     void update(double dt){
         for (int i = 0; i < bodies.size(); i++){
