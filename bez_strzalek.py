@@ -60,5 +60,4 @@ ax.set_zlabel('Z')
 # ax.set_title("n-Body 3D Trajectories")
 ax.legend()
 
-# Pokaż wykres
 plt.show()
